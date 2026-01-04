@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session, flash, jso
 import sqlite3, hashlib
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import os
 BUMP_LIMIT = 100
 app = Flask(__name__)
 app.secret_key = "s!U@p#r$a%S^e&k*r(E)t_K+e~Y<6>7?I:z'k}1{b]i[DI|t=0-I,l.e/T;Z`ekret69"
@@ -396,3 +396,4 @@ port = int(os.environ.get("PORT", 5000))
 
 # Run the Flask app on 0.0.0.0 so it’s accessible externally
 app.run(host="0.0.0.0", port=port, debug=True)
+
