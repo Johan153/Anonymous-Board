@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ thread[2] }}</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background: #0f0f0f;
+      color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.light {
+      background: #fafafa;
+      color: #1a1a1a;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .theme-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      z-index: 100;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    body.light .theme-btn {
+      background: linear-gradient(135deg, #5568d3 0%, #663a96 100%);
+    }
+
+    a {
+      color: #667eea;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: #764ba2;
+    }
+
+    body.light a {
+      color: #5568d3;
+    }
+
+    body.light a:hover {
+      color: #663a96;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    body.light .header {
+      border-bottom-color: rgba(0,0,0,0.1);
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .user-info {
+      text-align: right;
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    /* ---------- BOX STYLE ---------- */
+    .box {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.2s;
+    }
+
+    .box:hover {
+      border-color: rgba(102,126,234,0.3);
+      background: rgba(255,255,255,0.08);
+    }
+
+    body.light .box {
+      background: rgba(0,0,0,0.02);
+      border-color: rgba(0,0,0,0.1);
+    }
+
+    body.light .box:hover {
+      border-color: rgba(85,104,211,0.3);
+      background: rgba(0,0,0,0.04);
+    }
+
+    #original-thread {
+      border-left: 4px solid #667eea;
+      margin-bottom: 30px;
+    }
+
+    #original-thread h2 {
+      color: #667eea;
+    }
+
+    body.light #original-thread h2 {
+      color: #5568d3;
+    }
+
+    /* ---------- GREENTEXT ---------- */
+    .greentext {
+      color: #7cb342;
+    }
+
+    /* ---------- FORM ---------- */
+    form textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 14px;
+      resize: vertical;
+      min-height: 100px;
+      margin-bottom: 12px;
+      transition: all 0.2s;
+      font-family: inherit;
+      background: rgba(0,0,0,0.3);
+      color: inherit;
+    }
+
+    body.light form textarea {
+      background: #fff;
+      border-color: rgba(0,0,0,0.1);
+      color: #1a1a1a;
+    }
+
+    form textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      background: rgba(102,126,234,0.1);
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+    }
+
+    form button {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    form button:hover {
+      box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+    }
+
+    /* ---------- POSTS ---------- */
+    .posts-container .box small {
+      color: #999;
+      font-size: 12px;
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    body.light .posts-container .box small {
+      color: #666;
+    }
+
+    .posts-container form button {
+      width: auto;
+      padding: 6px 12px;
+      font-size: 12px;
+      margin-top: 8px;
+      background: #d32f2f;
+    }
+
+    .posts-container form button:hover {
+      box-shadow: 0 4px 12px rgba(211,47,47,0.4);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .user-info {
+        text-align: left;
+      }
+
+      h2 { font-size: 18px; }
+      
+      .box {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<button class="theme-btn" onclick="toggleTheme()">Change Theme</button>
+
+<div class="container" data-thread-id="{{ thread[0] }}" data-user-id="{{ user_id }}">
+
+  <div class="header">
+    <a class="back" href="/board/{{ board_name }}">← Back to Threads</a>
+    <div class="user-info">
+      👤 {{ username }} | <a href="/logout">Logout</a>
+    </div>
+  </div>
+
+  <!-- Original Thread -->
+  <div class="box" id="original-thread" data-created-at="{{ thread[5] }}">
+    <h2>{{ thread[2] }} by {{ thread[7] }}</h2>
+    <p>
+      {% for line in thread[3].split('\n') %}
+        {% if line.startswith('>') %}
+          <span class="greentext">{{ line }}</span><br>
+        {% else %}
+          {{ line }}<br>
+        {% endif %}
+      {% endfor %}
+    </p>
+  </div>
+
+  <!-- Reply Form -->
+  <div class="box">
+    <form id="reply-form" method="post">
+      <textarea name="content" placeholder="Share your thoughts..." required></textarea>
+      <button type="submit">Post Reply</button>
+    </form>
+  </div>
+
+  <!-- Replies -->
+  <div class="posts-container"></div>
+</div>
+
+<script>
+/* ---------- THEME ---------- */
+(function () {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") document.body.classList.add("light");
+})();
+function toggleTheme() {
+    document.body.classList.toggle("light");
+    localStorage.setItem(
+        "theme",
+        document.body.classList.contains("light") ? "light" : "dark"
+    );
+}
+
+/* ---------- RELATIVE TIME ---------- */
+function timeAgoUTC(dateString) {
+    const past = new Date(dateString + "Z");
+    const now = new Date();
+    const diff = Math.floor((now - past) / 1000);
+    if (diff < 60) return `${diff}s ago`;
+    const diffMinutes = Math.floor(diff / 60);
+    if (diffMinutes < 60) return `${diffMinutes}m ago`;
+    const diffHours = Math.floor(diff / 3600);
+    if (diffHours < 24) return `${diffHours}h ago`;
+    const diffDays = Math.floor(diff / 86400);
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return past.toLocaleDateString();
+}
+
+/* ---------- THREAD TIME ---------- */
+const originalThreadEl = document.getElementById("original-thread");
+const threadTime = originalThreadEl.dataset.createdAt;
+if (threadTime) {
+    const h2 = originalThreadEl.querySelector("h2");
+    h2.innerHTML += ` • <small>${timeAgoUTC(threadTime)}</small>`;
+}
+
+/* ---------- FETCH POSTS ---------- */
+const containerEl = document.querySelector(".container");
+const threadId = Number(containerEl.dataset.threadId);
+const currentUserId = Number(containerEl.dataset.userId);
+
+async function fetchPosts() {
+    try {
+        const res = await fetch(`/thread/${threadId}/posts.json`);
+        const posts = await res.json();
+        const postsContainer = document.querySelector(".posts-container");
+        postsContainer.innerHTML = "";
+
+        posts.forEach(p => {
+            const div = document.createElement("div");
+            div.classList.add("box");
+
+            let deleteBtn = "";
+            if (p.user_id === currentUserId) {
+                deleteBtn = `
+                    <form action="/delete_post/${p.id}" method="post" style="margin-top:5px;">
+                        <button>Delete</button>
+                    </form>
+                `;
+            }
+
+            const poster = p.username || p.anon;
+
+            div.innerHTML = `
+                <small>${poster} • ${timeAgoUTC(p.time)}</small>
+                <p>${p.content.replace(/\n/g, "<br>")}</p>
+                ${deleteBtn}
+            `;
+            postsContainer.appendChild(div);
+        });
+    } catch (err) {
+        console.error("Failed to fetch posts:", err);
+    }
+}
+
+fetchPosts();
+setInterval(fetchPosts, 5000);
+
+/* ---------- AJAX REPLY ---------- */
+document.getElementById("reply-form").addEventListener("submit", async function(e){
+    e.preventDefault();
+    const formData = new FormData(this);
+    const content = formData.get("content").trim();
+    if (!content) return;
+
+    try {
+        const res = await fetch(window.location.pathname, {
+            method: "POST",
+            body: formData
+        });
+        if (res.ok) {
+            this.reset();
+            fetchPosts();
+        }
+    } catch(err){
+        console.error("Failed to post reply:", err);
+    }
+});
+</script>
+
+</body>
+</html>

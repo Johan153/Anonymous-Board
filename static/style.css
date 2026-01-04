@@ -1,0 +1,93 @@
+/* ---------- THEME VARIABLES ---------- */
+:root {
+    --bg: #0b0b0b;
+    --fg: #d6d6d6;
+    --box: #151515;
+    --border: #2a2a2a;
+    --input-bg: #0f0f0f;
+    --button-bg: #222;
+}
+
+body.light {
+    --bg: #f5f5f5;
+    --fg: #111;
+    --box: #ffffff;
+    --border: #cccccc;
+    --input-bg: #ffffff;
+    --button-bg: #e0e0e0;
+}
+
+/* ---------- GLOBAL ---------- */
+body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+a {
+    color: #7aa2f7;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- LAYOUT ---------- */
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+.box {
+    background: var(--box);
+    border: 1px solid var(--border);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+/* ---------- FORMS ---------- */
+textarea,
+input {
+    width: 100%;
+    background: var(--input-bg);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    padding: 8px;
+}
+
+button {
+    background: var(--button-bg);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+/* ---------- EXTRAS ---------- */
+.greentext {
+    color: #789922;
+}
+
+.back {
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+@media (max-width: 600px) {
+    body { padding: 10px; }
+    .container { width: 100%; }
+    textarea { min-height: 100px; }
+    h1, h2 { font-size: 1.2em; }
+    button { width: 100%; margin-top: 5px; }
+}
