@@ -391,4 +391,8 @@ def posts_json(tid):
 
 # ---------------- INIT ----------------
 init_db()
-app.run(debug=True)
+
+port = int(os.environ.get("PORT", 5000))
+
+# Run the Flask app on 0.0.0.0 so it’s accessible externally
+app.run(host="0.0.0.0", port=port, debug=True)
